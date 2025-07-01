@@ -14,7 +14,7 @@ public class Expense
     public double Amount { get; set; }
 
     [Required]
-    public string Category { get; set; } = null!;
+    public Category Category { get; set; }
 
     public DateTime Date { get; set; } = DateTime.Now;
 }
