@@ -21,7 +21,12 @@ public class ExpensesController : Controller
 
     public IActionResult Create()
     {
-        return View();
+        var model = new Expense
+        {
+            Date = DateTime.Now
+        };
+
+        return View(model);
     }
 
     [HttpPost]

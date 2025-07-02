@@ -2,6 +2,6 @@
 
 public class ChartData
 {
-    public Category Category { get; set; }
+    public Category? Category { get; set; }
     public double Total { get; set; }
 }
