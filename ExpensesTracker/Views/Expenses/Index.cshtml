@@ -56,3 +56,53 @@
 
         })
 </script> *@
+
+<div class="container my-5">
+    <h3 class="mb-4 text-center fw-bold text-primary-emphasis">Expenses Overview</h3>
+
+    <div class="d-flex justify-content-center">
+        <div class="shadow-sm rounded p-3 bg-light" style="max-width: 500px;">
+            <canvas id="myChart" style="max-height: 450px;"></canvas>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const ctx = document.getElementById('myChart');
+
+    fetch('/Expenses/GetChart')
+        .then(response => response.json())
+        .then(data => {
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: data.map(d => d.category),
+                    datasets: [{
+                        data: data.map(d => d.total),
+                        backgroundColor: [
+                            '#0d6efd', '#6f42c1', '#198754', '#fd7e14', '#dc3545',
+                            '#20c997', '#0dcaf0', '#ffc107', '#6610f2', '#adb5bd'
+                        ],
+                        borderColor: '#ffffff',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.label}: AED ${context.parsed.toFixed(2)}`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+</script>

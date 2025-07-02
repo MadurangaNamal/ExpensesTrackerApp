@@ -36,4 +36,10 @@ public class ExpensesController : Controller
 
         return View(expense);
     }
+
+    public IActionResult GetChart()
+    {
+        var data = _expensesService.GetChartData();
+        return Json(data);
+    }
 }
