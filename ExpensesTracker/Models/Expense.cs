@@ -7,6 +7,7 @@ public class Expense
     public int Id { get; set; }
 
     [Required]
+    [MaxLength(1000, ErrorMessage = "Description should not exceed 1000 characters")]
     public string Description { get; set; } = null!;
 
     [Required]

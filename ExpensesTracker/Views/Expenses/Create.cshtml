@@ -7,23 +7,29 @@
         <div class="col-md-6 col-lg-5">
             <form asp-action="Create" method="post" class="p-4 border rounded shadow-sm bg-light">
                 <div class="mb-3">
-                    <label asp-for="Description" class="form-label">Description</label>
+                    <label asp-for="Description" class="form-label">Description<span class="text-danger">*</span></label>
                     <input asp-for="Description" class="form-control" placeholder="Eg: Grocery, Electricity Bill" />
                     <span asp-validation-for="Description" class="text-danger small"></span>
                 </div>
 
                 <div class="mb-3">
-                    <label asp-for="Amount" class="form-label">Amount (AED)</label>
+                    <label asp-for="Amount" class="form-label">Amount (AED)<span class="text-danger">*</span></label>
                     <input asp-for="Amount" class="form-control" placeholder="Eg: 50.00" />
                     <span asp-validation-for="Amount" class="text-danger small"></span>
                 </div>
 
                 <div class="mb-4">
-                    <label asp-for="Category" class="form-label">Category</label>
+                    <label asp-for="Category" class="form-label">Category<span class="text-danger">*</span></label>
                     <select asp-for="Category" class="form-select" asp-items="Html.GetEnumSelectList<Category>()">
                         <option value="">-- Select Category --</option>
                     </select>
                     <span asp-validation-for="Category" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-4">
+                    <label asp-for="Date" class="form-label">Date</label>
+                    <input asp-for="Date" class="form-control" type="date" />
+                    <span asp-validation-for="Date" class="text-danger small"></span>
                 </div>
 
                 <div class="d-grid">
