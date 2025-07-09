@@ -13,10 +13,24 @@ public class ExpensesController : Controller
         _expensesService = expensesService ?? throw new ArgumentNullException(nameof(expensesService));
     }
 
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(int year = 0, int month = 0)
     {
-        var expenses = await _expensesService.GetAll();
+        if (year == 0 || month == 0)
+        {
+            var now = DateTime.Now;
+            year = now.Year;
+            month = now.Month;
+        }
+
+        var expenses = await _expensesService.GetAll(year, month);
         return View(expenses);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetExpensesTable(int year, int month)
+    {
+        var expenses = await _expensesService.GetAll(year, month);
+        return PartialView("_ExpensesTablePartial", expenses);
     }
 
     public IActionResult Create()
@@ -42,9 +56,10 @@ public class ExpensesController : Controller
         return View(expense);
     }
 
-    public IActionResult GetChart()
+    [HttpGet]
+    public IActionResult GetChart(int year, int month)
     {
-        var data = _expensesService.GetChartData();
+        var data = _expensesService.GetChartData(year, month);
         return Json(data);
     }
 }

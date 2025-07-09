@@ -12,9 +12,11 @@ public class ExpensesService : IExpensesService
         _dbContext = dBContext ?? throw new ArgumentNullException(nameof(dBContext));
     }
 
-    public async Task<IEnumerable<Expense>> GetAll()
+    public async Task<IEnumerable<Expense>> GetAll(int year, int month)
     {
-        var expenses = await _dbContext.Expenses.ToListAsync();
+        var expenses = await _dbContext.Expenses
+            .Where(e => e.Date.Year == year && e.Date.Month == month)
+            .ToListAsync();
         return expenses;
     }
 
@@ -24,9 +26,10 @@ public class ExpensesService : IExpensesService
         await _dbContext.SaveChangesAsync();
     }
 
-    public IQueryable GetChartData()
+    public IQueryable GetChartData(int year, int month)
     {
         var data = _dbContext.Expenses
+            .Where(e => e.Date.Year == year && e.Date.Month == month)
             .GroupBy(e => e.Category)
             .Select(g => new ChartData
             {

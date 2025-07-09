@@ -1,0 +1,12 @@
+﻿@model IEnumerable<ExpensesTracker.Models.Expense>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>@item.Description</td>
+        <td>@item.Amount.ToString("0.00")</td>
+        <td>@item.Category</td>
+        <td>@item.Date.ToString("yyyy-MM-dd")</td>
+    </tr>
+}
+
