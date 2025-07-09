@@ -61,7 +61,7 @@
                         <td colspan="4" class="text-center text-muted py-4">
                             <i class="bi bi-inbox" style="font-size: 2rem;"></i>
                             <div class="mt-2">No Records Available</div>
-                            <small>No expenses found for the selected period.</small>
+                            <small>No expenses found for the selected month.</small>
                         </td>
                     </tr>
                 }
@@ -81,7 +81,7 @@
             <div id="noChartData" class="text-center text-muted py-4" style="display: none;">
                 <i class="bi bi-pie-chart" style="font-size: 3rem;"></i>
                 <div class="mt-2">No Data Available</div>
-                <small>No expenses to display in chart for the selected period.</small>
+                <small>No expenses found for the selected month.</small>
             </div>
 
         </div>
@@ -194,4 +194,5 @@
     const initialMonth = new Date().getMonth() + 1;
     loadChart(initialYear, initialMonth);
     loadTable(initialYear, initialMonth);
+
 </script>
