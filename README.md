@@ -14,6 +14,17 @@ An **Expense Tracking Application** built with **ASP.NET Core MVC** and **Entity
 
 ---
 
+## 🔑 Authentication
+
+✅ **Google SSO Authentication Enabled** 🚀
+
+<p align="center">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google Logo" width="60"/>
+</p>
+
+Supports **secure, one-click sign-in with your google account**, allowing you to access your expenses from anywhere **without managing password hassle**.
+
+---
 ## 🛠 Tech Stack
 
 - ASP.NET Core MVC (.NET 6 or later)  
@@ -21,4 +32,3 @@ An **Expense Tracking Application** built with **ASP.NET Core MVC** and **Entity
 - MS SQL Server
 - Bootstrap 5  
 
----
