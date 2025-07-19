@@ -1,11 +1,11 @@
 ﻿@model ExpensesTracker.Models.Expense;
 
 <div class="container my-5">
-    <h3 class="mb-4 text-center fw-bold text-primary-emphasis">Add Expense Item</h3>
+    <h3 class="mb-4 text-center fw-bold text-primary-emphasis">Update Expense</h3>
 
     <div class="row justify-content-center">
         <div class="col-md-6 col-lg-5">
-            <form asp-action="Create" method="post" class="p-4 border rounded shadow-sm bg-light">
+            <form asp-controller="Expenses" asp-action="Update" asp-route-itemId="@Model.Id" method="post" class="p-4 border rounded shadow-sm bg-light">
                 <div class="mb-3">
                     <label asp-for="Description" class="form-label">Description<span class="text-danger">*</span></label>
                     <input asp-for="Description" class="form-control" placeholder="Eg: Grocery, Electricity Bill" />
@@ -32,8 +32,13 @@
                     <span asp-validation-for="Date" class="text-danger small"></span>
                 </div>
 
-                <div class="d-grid">
-                    <button type="submit" class="btn btn-primary btn-lg">Add Expense</button>
+                <div class="d-flex justify-content-between gap-2 mt-3">
+                    <button type="submit" class="btn btn-primary btn-lg flex-fill d-flex align-items-center justify-content-center">
+                        <i class="bi bi-save me-2"></i> Update
+                    </button>
+                    <a asp-action="Index" class="btn btn-outline-secondary btn-lg flex-fill d-flex align-items-center justify-content-center">
+                        <i class="bi bi-x-circle me-2"></i> Cancel
+                    </a>
                 </div>
             </form>
         </div>

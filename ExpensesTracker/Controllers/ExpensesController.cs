@@ -43,6 +43,12 @@ public class ExpensesController : Controller
         return View(model);
     }
 
+    public async Task<IActionResult> Update(int itemId)
+    {
+        var expense = await _expensesService.GetExpenseItemAsync(itemId);
+        return View(expense);
+    }
+
     [HttpPost]
     public async Task<IActionResult> Create(Expense expense)
     {
@@ -54,6 +60,26 @@ public class ExpensesController : Controller
         }
 
         return View(expense);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Update(int itemId, Expense expense)
+    {
+        if (ModelState.IsValid)
+        {
+            await _expensesService.UpdateExpenseItemAsync(itemId, expense);
+
+            return RedirectToAction("Index");
+        }
+
+        return View(expense);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Delete(int itemId)
+    {
+        await _expensesService.DeleteExpenseItemAsync(itemId);
+        return RedirectToAction("Index");
     }
 
     [HttpGet]

@@ -20,6 +20,16 @@ public class ExpensesService : IExpensesService
         return expenses;
     }
 
+    public async Task<Expense> GetExpenseItemAsync(int itemId)
+    {
+        var expenseItem = await _dbContext.Expenses.FindAsync(itemId);
+
+        if (expenseItem == null)
+            throw new KeyNotFoundException($"Expense with ID {itemId} not found.");
+
+        return expenseItem;
+    }
+
     public async Task AddExpenseItemAsync(Expense expense)
     {
         _dbContext.Add(expense);
@@ -34,8 +44,11 @@ public class ExpensesService : IExpensesService
         if (expenseItem == null)
             throw new KeyNotFoundException($"Expense with ID {itemId} not found.");
 
-        expenseItem = expense;
-        _dbContext.Update(expenseItem);
+        expenseItem.Description = expense.Description;
+        expenseItem.Amount = expense.Amount;
+        expenseItem.Category = expense.Category;
+        expenseItem.Date = expense.Date;
+
         await _dbContext.SaveChangesAsync();
     }
 
