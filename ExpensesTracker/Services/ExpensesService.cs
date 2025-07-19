@@ -16,6 +16,7 @@ public class ExpensesService : IExpensesService
     {
         var expenses = await _dbContext.Expenses
             .Where(e => e.Date.Year == year && e.Date.Month == month)
+            .AsNoTracking()
             .ToListAsync();
         return expenses;
     }
