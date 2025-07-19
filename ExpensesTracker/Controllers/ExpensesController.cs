@@ -22,14 +22,14 @@ public class ExpensesController : Controller
             month = now.Month;
         }
 
-        var expenses = await _expensesService.GetAll(year, month);
+        var expenses = await _expensesService.GetAllExpensesAsync(year, month);
         return View(expenses);
     }
 
     [HttpGet]
     public async Task<IActionResult> GetExpensesTable(int year, int month)
     {
-        var expenses = await _expensesService.GetAll(year, month);
+        var expenses = await _expensesService.GetAllExpensesAsync(year, month);
         return PartialView("_ExpensesTablePartial", expenses);
     }
 
@@ -48,7 +48,7 @@ public class ExpensesController : Controller
     {
         if (ModelState.IsValid)
         {
-            await _expensesService.Add(expense);
+            await _expensesService.AddExpenseItemAsync(expense);
 
             return RedirectToAction("Index");
         }

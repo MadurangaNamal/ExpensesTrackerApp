@@ -4,6 +4,7 @@ namespace ExpensesTracker.Models;
 
 public class Expense
 {
+    [Key]
     public int Id { get; set; }
 
     [Required]

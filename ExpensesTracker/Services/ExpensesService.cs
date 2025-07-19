@@ -12,7 +12,7 @@ public class ExpensesService : IExpensesService
         _dbContext = dBContext ?? throw new ArgumentNullException(nameof(dBContext));
     }
 
-    public async Task<IEnumerable<Expense>> GetAll(int year, int month)
+    public async Task<IEnumerable<Expense>> GetAllExpensesAsync(int year, int month)
     {
         var expenses = await _dbContext.Expenses
             .Where(e => e.Date.Year == year && e.Date.Month == month)
@@ -20,9 +20,32 @@ public class ExpensesService : IExpensesService
         return expenses;
     }
 
-    public async Task Add(Expense expense)
+    public async Task AddExpenseItemAsync(Expense expense)
     {
         _dbContext.Add(expense);
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task UpdateExpenseItemAsync(int itemId, Expense expense)
+    {
+        ArgumentNullException.ThrowIfNull(expense, nameof(expense));
+        var expenseItem = await _dbContext.Expenses.FindAsync(itemId);
+
+        if (expenseItem == null)
+            throw new KeyNotFoundException($"Expense with ID {itemId} not found.");
+
+        expenseItem = expense;
+        _dbContext.Update(expenseItem);
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task DeleteExpenseItemAsync(int itemId)
+    {
+        var expenseItem = await _dbContext.Expenses.FindAsync(itemId);
+        if (expenseItem == null)
+            throw new KeyNotFoundException($"Expense with ID {itemId} not found.");
+
+        _dbContext.Expenses.Remove(expenseItem);
         await _dbContext.SaveChangesAsync();
     }
 
