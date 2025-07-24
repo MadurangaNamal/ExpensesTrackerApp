@@ -1,4 +1,4 @@
-using ExpensesTracker;
+using ExpensesTracker.Data;
 using ExpensesTracker.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;

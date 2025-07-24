@@ -1,4 +1,5 @@
-﻿using ExpensesTracker.Models;
+﻿using ExpensesTracker.Data;
+using ExpensesTracker.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace ExpensesTracker.Services;
