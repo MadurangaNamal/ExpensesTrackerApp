@@ -2,16 +2,26 @@
     ViewData["Title"] = "Login";
 }
 
+<div class="d-flex justify-content-center align-items-center min-vh-100 bg-light">
+    <div class="card shadow-sm p-4" style="max-width: 400px; width: 100%;">
+        <div class="text-center mb-4">
+            <h2 class="fw-bold text-primary">Sign In</h2>
+            <p class="text-muted mb-0">Access your Expenses Tracker account</p>
+        </div>
 
-<h2>Login</h2>
-
-<div class="row">
-    <div class="col-md-6">
-        <h3>Use Google to sign in</h3>
-        <form asp-controller="Account" asp-action="GoogleLogin" method="post">
-            <button type="submit" class="btn btn-primary">
-                <i class="fab fa-google"></i> Sign in with Google
+        <form asp-controller="UserAccounts" asp-action="GoogleLogin" method="post" class="d-grid gap-2">
+            <button type="submit" class="btn btn-danger btn-lg d-flex align-items-center justify-content-center gap-2">
+                <i class="bi bi-google"></i> Sign in with Google
             </button>
         </form>
+
+        <div class="mt-4 text-center">
+            <small class="text-muted">
+                By signing in, you agree to Google's
+                <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer">Terms of Service</a>
+                and
+                <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
+            </small>
+        </div>
     </div>
 </div>
