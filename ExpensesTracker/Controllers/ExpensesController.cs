@@ -1,9 +1,11 @@
 ﻿using ExpensesTracker.Models;
 using ExpensesTracker.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ExpensesTracker.Controllers;
 
+[Authorize]
 public class ExpensesController : Controller
 {
     private readonly IExpensesService _expensesService;

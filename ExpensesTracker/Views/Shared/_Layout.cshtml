@@ -25,6 +25,27 @@
                             <a class="nav-link text-dark fw-medium" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                     </ul>
+
+                    <ul class="navbar-nav ms-auto">
+                        @if (User.Identity!.IsAuthenticated)
+                        {
+                            <li class="nav-item d-flex align-items-center">
+                                <span class="navbar-text text-dark fw-medium">@User.Identity.Name</span>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link text-danger fw-medium d-flex align-items-center gap-1" asp-controller="UserAccounts" asp-action="Logout">
+                                    <i class="bi bi-box-arrow-right"></i> Logout
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark fw-medium" asp-controller="UserAccounts" asp-action="Login">Login</a>
+                            </li>
+                        }
+                    </ul>
                 </div>
             </div>
         </nav>
