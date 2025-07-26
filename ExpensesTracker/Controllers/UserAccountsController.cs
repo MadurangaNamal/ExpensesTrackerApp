@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using ExpensesTracker.Models;
+using ExpensesTracker.Services;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +10,13 @@ namespace ExpensesTracker.Controllers;
 
 public class UserAccountsController : Controller
 {
+    private readonly IUserService _userService;
+
+    public UserAccountsController(IUserService userService)
+    {
+        _userService = userService ?? throw new ArgumentNullException(nameof(userService));
+    }
+
     public IActionResult Login()
     {
         return View();
@@ -36,6 +45,22 @@ public class UserAccountsController : Controller
         var claims = authenticateResult.Principal.Claims;
         var userEmail = claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
         var userName = claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
+
+        if ((!string.IsNullOrEmpty(userEmail)
+            && !string.IsNullOrEmpty(userName)))
+        {
+            var user = await _userService.GetUserByEmailAsync(userEmail);
+
+            // Create a new user account if not exist
+            if (user == null)
+            {
+                await _userService.AddUserOnLoginAsync(new UserAccount
+                {
+                    Email = userEmail,
+                    UserName = userName,
+                });
+            }
+        }
 
         return RedirectToAction("Index", "Home");
     }
