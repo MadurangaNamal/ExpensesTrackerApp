@@ -49,6 +49,7 @@ builder.Services.AddControllersWithViews()
 builder.Services.AddDbContext<ExpensesTrackerDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString")));
 
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IExpensesService, ExpensesService>();
 builder.Services.AddScoped<IUserService, UserService>();
 

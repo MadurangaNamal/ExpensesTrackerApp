@@ -9,10 +9,12 @@ namespace ExpensesTracker.Controllers;
 public class ExpensesController : Controller
 {
     private readonly IExpensesService _expensesService;
+    private readonly IUserService _userService;
 
-    public ExpensesController(IExpensesService expensesService)
+    public ExpensesController(IExpensesService expensesService, IUserService userService)
     {
         _expensesService = expensesService ?? throw new ArgumentNullException(nameof(expensesService));
+        _userService = userService ?? throw new ArgumentNullException(nameof(userService));
     }
 
     public async Task<IActionResult> Index(int year = 0, int month = 0)
@@ -56,7 +58,18 @@ public class ExpensesController : Controller
     {
         if (ModelState.IsValid)
         {
-            await _expensesService.AddExpenseItemAsync(expense);
+            var user = await _userService.GetCurrentUserAsync();
+
+            if (user != null)
+            {
+                expense.UserId = user.UserId;
+                await _expensesService.AddExpenseItemAsync(expense);
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "User not found. Please log in.");
+                return View(expense);
+            }
 
             return RedirectToAction("Index");
         }

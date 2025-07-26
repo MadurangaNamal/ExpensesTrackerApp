@@ -1,16 +1,19 @@
 ﻿using ExpensesTracker.Data;
 using ExpensesTracker.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace ExpensesTracker.Services;
 
 public class UserService : IUserService
 {
     private readonly ExpensesTrackerDBContext _dbContext;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public UserService(ExpensesTrackerDBContext dBContext)
+    public UserService(ExpensesTrackerDBContext dBContext, IHttpContextAccessor httpContextAccessor)
     {
         _dbContext = dBContext ?? throw new ArgumentNullException(nameof(dBContext));
+        _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
     }
 
     public async Task<UserAccount?> GetUserByIdAsync(int userId)
@@ -26,6 +29,15 @@ public class UserService : IUserService
         var user = await _dbContext.Users
             .AsNoTracking()
             .FirstOrDefaultAsync(u => u.Email == email);
+        return user;
+    }
+
+    public async Task<UserAccount?> GetCurrentUserAsync()
+    {
+        var userEmail = _httpContextAccessor.HttpContext?.User?.Claims
+            .FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+
+        var user = userEmail != null ? await GetUserByEmailAsync(userEmail) : null;
         return user;
     }
 

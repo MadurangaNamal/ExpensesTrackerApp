@@ -7,16 +7,23 @@ namespace ExpensesTracker.Services;
 public class ExpensesService : IExpensesService
 {
     private readonly ExpensesTrackerDBContext _dbContext;
+    private readonly IUserService _userService;
 
-    public ExpensesService(ExpensesTrackerDBContext dBContext)
+    public ExpensesService(ExpensesTrackerDBContext dBContext, IUserService userService)
     {
         _dbContext = dBContext ?? throw new ArgumentNullException(nameof(dBContext));
+        _userService = userService ?? throw new ArgumentNullException(nameof(userService));
     }
 
     public async Task<IEnumerable<Expense>> GetAllExpensesAsync(int year, int month)
     {
+        var user = await _userService.GetCurrentUserAsync();
+
+        if (user == null)
+            throw new UnauthorizedAccessException("User is not authenticated.");
+
         var expenses = await _dbContext.Expenses
-            .Where(e => e.Date.Year == year && e.Date.Month == month)
+            .Where(e => e.Date.Year == year && e.Date.Month == month && e.UserId == user.UserId)
             .AsNoTracking()
             .ToListAsync();
         return expenses;
@@ -66,8 +73,13 @@ public class ExpensesService : IExpensesService
 
     public IQueryable GetChartData(int year, int month)
     {
+        var user = _userService.GetCurrentUserAsync();
+
+        if (user == null)
+            throw new UnauthorizedAccessException("User is not authenticated.");
+
         var data = _dbContext.Expenses
-            .Where(e => e.Date.Year == year && e.Date.Month == month)
+            .Where(e => e.Date.Year == year && e.Date.Month == month && e.UserId == user.Result!.UserId)
             .GroupBy(e => e.Category)
             .Select(g => new ChartData
             {
