@@ -11,11 +11,17 @@ public class ExpensesTrackerDBContext : DbContext
     }
 
     public DbSet<Expense> Expenses { get; set; } = null!;
+    public DbSet<UserAccount> Users { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Expense>()
-            .ToTable("Expenses");
+            .ToTable("Expenses")
+            .HasOne(e => e.User)
+            .WithMany(u => u.Expenses)
+            .HasForeignKey(e => e.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
         base.OnModelCreating(modelBuilder);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ExpensesTracker.Models;
 
@@ -19,4 +20,9 @@ public class Expense
     public Category? Category { get; set; } = null!;
 
     public DateTime Date { get; set; } = DateTime.Now;
+
+    public int UserId { get; set; }
+
+    [ForeignKey("UserId")]
+    public UserAccount? User { get; set; } = null!;
 }
