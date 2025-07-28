@@ -33,3 +33,68 @@ Supports **secure, one-click sign-in with your google account**, allowing you to
 - MS SQL Server
 - Bootstrap 5  
 
+
+## 🚀 Quick Start with Docker
+
+### Prerequisites
+
+- [Docker](https://www.docker.com/get-started) installed on your machine
+- [Docker Compose](https://docs.docker.com/compose/install/) (usually included with Docker Desktop)
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/MadurangaNamal/ExpensesTracker.git
+cd ExpensesTracker
+```
+
+### 2. Configure Environment Variables
+
+Create a `.env` file in the root directory (same level as `docker-compose.yml`):
+
+```env
+# Database Configuration
+SA_PASSWORD=YourStrong@Passw0rd
+
+# Google Authentication (Optional - for Google SSO)
+GOOGLE_CLIENT_ID=your-google-client-id-here
+GOOGLE_CLIENT_SECRET=your-google-client-secret-here
+```
+### 3. Set Up Google OAuth (Optional)
+
+If you want to enable Google Sign-In:
+
+1. Go to [Google Cloud Console](https://console.cloud.google.com/)
+2. Create a new project or select existing one
+3. Enable Google+ API
+4. Create OAuth 2.0 credentials
+5. Add authorized redirect URIs:
+   - `http://localhost:5206/signin-google`
+   - `https://localhost:5206/signin-google`
+6. Copy Client ID and Client Secret to your `.env` file
+
+### 4. Run the Application
+
+```bash
+# Build and start all services
+docker-compose up --build
+
+# Or run in detached mode
+docker-compose up --build -d
+```
+
+### 5. Access the Application
+
+Open your browser and navigate to:
+- **Main Application**: [http://localhost:5206](http://localhost:5206)
+- **Database**: SQL Server is available on `localhost:1433`
+
+### 6. Stop the Application
+
+```bash
+# Stop all services
+docker-compose down
+
+# Stop and remove volumes (clears database data)
+docker-compose down -v
+```
