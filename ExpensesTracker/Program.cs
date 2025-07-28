@@ -72,4 +72,11 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
 
+// Migrate the database
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ExpensesTrackerDBContext>();
+    db.Database.Migrate();
+}
+
 app.Run();

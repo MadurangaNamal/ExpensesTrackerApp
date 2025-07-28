@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  expensestracker:
+    image: expensestracker
+    build:
+      context: .
+      dockerfile: ExpensesTracker/Dockerfile
+    ports:
+      - "5206:5206"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnectionString: Server=sqlserver;Database=ExpensesTrackerDB;User=sa;Password=${DB_PASSWORD};TrustServerCertificate=true;ConnectRetryCount=5;ConnectRetryInterval=10;
+      Authentication__Google__ClientId: ${GOOGLE_CLIENT_ID}
+      Authentication__Google__ClientSecret: ${GOOGLE_CLIENT_SECRET}
+    depends_on:
+      - sqlserver
+    restart: on-failure
+    networks:
+      - app-network
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver
+    ports:
+      - "1433:1433"
+    environment:
+      SA_PASSWORD: ${DB_PASSWORD}
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: "Express"
+    volumes:
+      - sql_data:/var/opt/mssql
+    networks:
+      - app-network
+
+volumes:
+  sql_data:
+
+networks:
+  app-network:
+    driver: bridge
