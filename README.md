@@ -32,13 +32,14 @@ Supports **secure, one-click sign-in with your google account**, allowing you to
 - Entity Framework Core  
 - MS SQL Server
 - Bootstrap 5  
-
+---
 
 ## 🚀 Quick Start with Docker
 
 <p align="center">
   <img src="https://www.docker.com/wp-content/uploads/2022/03/Moby-logo.png" alt="Docker Logo" width="60"/>
 </p>
+
 ### Prerequisites
 
 - [Docker](https://www.docker.com/get-started) installed on your machine
