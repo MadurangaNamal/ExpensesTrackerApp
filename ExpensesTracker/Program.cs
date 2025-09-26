@@ -46,8 +46,13 @@ builder.Services.AddControllersWithViews()
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     });
 
+var rawConnectionString = builder.Configuration.GetConnectionString("DefaultConnectionString");
+var dbPassword = builder.Configuration["DB_PASSWORD"]
+    ?? throw new InvalidOperationException("Database password not found in configuration.");
+var connectionString = rawConnectionString!.Replace("{DB_PASSWORD}", dbPassword);
+
 builder.Services.AddDbContext<ExpensesTrackerDBContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString")));
+    options.UseSqlServer(connectionString));
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IExpensesService, ExpensesService>();
