@@ -13,6 +13,7 @@ services:
       ConnectionStrings__DefaultConnectionString: Server=sqlserver;Database=ExpensesTrackerDB;User=sa;Password=${DB_PASSWORD};TrustServerCertificate=true;ConnectRetryCount=5;ConnectRetryInterval=10;
       Authentication__Google__ClientId: ${GOOGLE_CLIENT_ID}
       Authentication__Google__ClientSecret: ${GOOGLE_CLIENT_SECRET}
+      DB_PASSWORD: ${DB_PASSWORD} 
     depends_on:
       - sqlserver
     restart: on-failure
