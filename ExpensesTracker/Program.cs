@@ -20,6 +20,7 @@ builder.Services.AddAuthentication(options =>
     options.LoginPath = "/Account/Login";
     options.LogoutPath = "/Account/Logout";
     options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+    options.SlidingExpiration = true;
 })
 .AddGoogle(options =>
 {
@@ -27,6 +28,9 @@ builder.Services.AddAuthentication(options =>
         ?? throw new InvalidOperationException("Google ClientId is not configured.");
     options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"]
         ?? throw new InvalidOperationException("Google ClientSecret is not configured.");
+
+    options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.SaveTokens = true;
 
     //Request additional scopes (permissions) for email and profile information from google
     options.Scope.Add("email");

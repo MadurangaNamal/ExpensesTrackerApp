@@ -42,8 +42,7 @@ public class UserAccountsController : Controller
     public async Task<IActionResult> GoogleResponse()
     {
         //Handle the response from Google after authentication
-        var authenticateResult = await HttpContext.AuthenticateAsync(
-            CookieAuthenticationDefaults.AuthenticationScheme);
+        var authenticateResult = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
         if (!authenticateResult.Succeeded)
             return RedirectToAction("Login");
