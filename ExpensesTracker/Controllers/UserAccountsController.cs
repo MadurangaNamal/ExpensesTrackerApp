@@ -23,12 +23,18 @@ public class UserAccountsController : Controller
     }
 
     [HttpPost]
-    public IActionResult GoogleLogin()
+    public IActionResult GoogleLogin(bool rememberMe)
     {
         var authenticationProperties = new AuthenticationProperties
         {
             RedirectUri = Url.Action("GoogleResponse")
         };
+
+        if (rememberMe)
+        {
+            authenticationProperties.IsPersistent = true;
+            authenticationProperties.ExpiresUtc = DateTimeOffset.UtcNow.AddDays(7);
+        }
 
         return Challenge(authenticationProperties, GoogleDefaults.AuthenticationScheme);
     }
@@ -67,8 +73,8 @@ public class UserAccountsController : Controller
 
     public async Task<IActionResult> Logout()
     {
-        //Sign out of both cookie authentication and Google
-        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme); //Sign out of both cookie authentication and Google
+
         return RedirectToAction("Index", "Home");
     }
 }
