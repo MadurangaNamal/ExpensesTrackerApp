@@ -10,6 +10,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddUserSecrets<Program>();
 
+var cookieExpireTime = builder.Configuration["AuthCookieExpiryMinutes"]
+    ?? throw new InvalidOperationException("Cookie expiration time is not configured.");
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -19,7 +22,7 @@ builder.Services.AddAuthentication(options =>
 {
     options.LoginPath = "/Account/Login";
     options.LogoutPath = "/Account/Logout";
-    options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(long.Parse(cookieExpireTime));
     options.SlidingExpiration = true;
 })
 .AddGoogle(options =>
@@ -52,19 +55,21 @@ builder.Services.AddControllersWithViews()
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     });
 
-var rawConnectionString = builder.Configuration.GetConnectionString("DefaultConnectionString");
+var rawConnectionString = builder.Configuration.GetConnectionString("DefaultConnectionString")
+    ?? throw new InvalidOperationException("Connection string 'DefaultConnectionString' not found.");
 var dbPassword = builder.Configuration["DB_PASSWORD"]
     ?? throw new InvalidOperationException("Database password not found in configuration.");
 var connectionString = rawConnectionString!.Replace("{DB_PASSWORD}", dbPassword);
 
-builder.Services.AddDbContext<ExpensesTrackerDBContext>(options =>
-    options.UseSqlServer(connectionString));
-
+builder.Services.AddHttpLogging();
+builder.Services.AddDbContext<ExpensesTrackerDBContext>(options => options.UseSqlServer(connectionString));
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IExpensesService, ExpensesService>();
 builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
+
+app.UseHttpLogging();
 
 if (!app.Environment.IsDevelopment())
 {
@@ -83,11 +88,11 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
 
-// Migrate the database
+// Perform database migration at startup
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<ExpensesTrackerDBContext>();
-    db.Database.Migrate();
+    await db.Database.MigrateAsync();
 }
 
-app.Run();
+await app.RunAsync();

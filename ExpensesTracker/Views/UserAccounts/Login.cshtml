@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Login";
+    ViewData["Title"] = "Login -";
 }
 
 <div class="d-flex justify-content-center align-items-center min-vh-100 bg-light">
@@ -10,15 +10,15 @@
         </div>
 
         <form asp-controller="UserAccounts" asp-action="GoogleLogin" method="post" class="d-grid gap-2">
-            <div class="form-check text-start mb-3">
+            <button type="submit" class="btn btn-danger btn-lg d-flex align-items-center justify-content-center gap-2">
+                <i class="bi bi-google"></i> Sign in with Google
+            </button>
+            <div class="form-check text-start m-3">
                 <input type="checkbox" class="form-check-input" id="rememberMe" name="rememberMe" value="true">
                 <label class="form-check-label text-muted" for="rememberMe">
                     Remember me
                 </label>
             </div>
-            <button type="submit" class="btn btn-danger btn-lg d-flex align-items-center justify-content-center gap-2">
-                <i class="bi bi-google"></i> Sign in with Google
-            </button>
         </form>
 
         <div class="mt-4 text-center">
