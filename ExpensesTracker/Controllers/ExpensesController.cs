@@ -21,7 +21,7 @@ public class ExpensesController : Controller
     {
         if (year == 0 || month == 0)
         {
-            var now = DateTime.Now;
+            var now = DateTime.UtcNow;
             year = now.Year;
             month = now.Month;
         }
@@ -41,7 +41,7 @@ public class ExpensesController : Controller
     {
         var model = new Expense
         {
-            Date = DateTime.Now
+            Date = DateTime.UtcNow
         };
 
         return View(model);
@@ -83,7 +83,6 @@ public class ExpensesController : Controller
         if (ModelState.IsValid)
         {
             await _expensesService.UpdateExpenseItemAsync(itemId, expense);
-
             return RedirectToAction("Index");
         }
 

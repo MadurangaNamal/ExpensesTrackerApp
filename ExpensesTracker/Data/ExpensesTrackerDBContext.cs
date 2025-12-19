@@ -15,7 +15,7 @@ public class ExpensesTrackerDBContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Expense>().ToTable("Expenses")
+        modelBuilder.Entity<Expense>()
             .HasOne(e => e.User)
             .WithMany(u => u.Expenses)
             .HasForeignKey(e => e.UserId)

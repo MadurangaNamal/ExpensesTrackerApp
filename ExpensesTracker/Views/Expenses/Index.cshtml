@@ -1,4 +1,6 @@
-﻿@model IEnumerable<Expense>
+﻿@using System.Globalization
+
+@model IEnumerable<Expense>
 
 @{
     ViewData["Title"] = "View Expenses -";
@@ -10,15 +12,16 @@
     <div class="d-flex justify-content-center mb-3">
         <div class="d-flex gap-2">
             <select id="yearSelect" class="form-select">
-                @for (int year = DateTime.Now.Year; year >= DateTime.Now.Year - 5; year--)
+                @for (int year = DateTime.UtcNow.Year; year >= DateTime.UtcNow.Year - 5; year--)
                 {
-                    <option value="@year" selected="@(year == DateTime.Now.Year ? "selected" : null)">@year</option>
+                    <option value="@year" selected="@(year == DateTime.UtcNow.Year ? "selected" : null)">@year</option>
                 }
             </select>
-            <select id="monthSelect" class="form-select">
+            <select id="monthSelect" class="form-select" style="width: auto;">
                 @{
-                    var currentMonth = DateTime.Now.Month;
-                    var months = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.MonthNames;
+                    var currentMonth = DateTime.UtcNow.Month;
+                    var months = CultureInfo.CurrentCulture.DateTimeFormat.MonthNames;
+
                     for (int m = 1; m <= 12; m++)
                     {
                         if (m == currentMonth)
@@ -162,6 +165,7 @@
             .then(response => response.text())
             .then(html => {
                 const tableBody = document.getElementById('expensesTableBody');
+
                 if (html.trim() === '' || html.includes('No Records Available')) {
                     tableBody.innerHTML = `
                         <tr>
@@ -198,9 +202,10 @@
     });
 
     // Load current month data on initial load
-    const initialYear = new Date().getFullYear();
+    const currentYear = new Date().getFullYear();
     const initialMonth = new Date().getMonth() + 1;
-    loadChart(initialYear, initialMonth);
-    loadTable(initialYear, initialMonth);
+
+    loadChart(currentYear, initialMonth);
+    loadTable(currentYear, initialMonth);
 
 </script>

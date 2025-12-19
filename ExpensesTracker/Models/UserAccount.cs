@@ -14,5 +14,5 @@ public class UserAccount
     [MaxLength(100, ErrorMessage = "Username should not exceed 100 characters")]
     public string UserName { get; set; } = null!;
 
-    public ICollection<Expense> Expenses { get; set; } = new List<Expense>();
+    public ICollection<Expense> Expenses { get; set; } = [];
 }

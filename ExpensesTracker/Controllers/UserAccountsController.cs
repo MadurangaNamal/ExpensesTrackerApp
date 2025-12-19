@@ -41,7 +41,7 @@ public class UserAccountsController : Controller
 
     public async Task<IActionResult> GoogleResponse()
     {
-        //Handle the response from Google after authentication
+        // Handle the response from Google after authentication
         var authenticateResult = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
         if (!authenticateResult.Succeeded)
@@ -72,8 +72,7 @@ public class UserAccountsController : Controller
 
     public async Task<IActionResult> Logout()
     {
-        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme); //Sign out of both cookie authentication and Google
-
+        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme); // Sign out of both cookie authentication and Google
         return RedirectToAction("Index", "Home");
     }
 }

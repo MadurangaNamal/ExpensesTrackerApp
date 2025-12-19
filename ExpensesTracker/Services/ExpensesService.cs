@@ -26,17 +26,14 @@ public class ExpensesService : IExpensesService
             .Where(e => e.Date.Year == year && e.Date.Month == month && e.UserId == user.UserId)
             .AsNoTracking()
             .ToListAsync();
+
         return expenses;
     }
 
     public async Task<Expense> GetExpenseItemAsync(int itemId)
     {
         var expenseItem = await _dbContext.Expenses.FindAsync(itemId);
-
-        if (expenseItem == null)
-            throw new KeyNotFoundException($"Expense with ID {itemId} not found.");
-
-        return expenseItem;
+        return expenseItem ?? throw new KeyNotFoundException($"Expense with ID {itemId} not found.");
     }
 
     public async Task AddExpenseItemAsync(Expense expense)
@@ -47,7 +44,7 @@ public class ExpensesService : IExpensesService
 
     public async Task UpdateExpenseItemAsync(int itemId, Expense expense)
     {
-        ArgumentNullException.ThrowIfNull(expense, nameof(expense));
+        ArgumentNullException.ThrowIfNull(expense);
         var expenseItem = await _dbContext.Expenses.FindAsync(itemId);
 
         if (expenseItem == null)
@@ -64,6 +61,7 @@ public class ExpensesService : IExpensesService
     public async Task DeleteExpenseItemAsync(int itemId)
     {
         var expenseItem = await _dbContext.Expenses.FindAsync(itemId);
+
         if (expenseItem == null)
             throw new KeyNotFoundException($"Expense with ID {itemId} not found.");
 

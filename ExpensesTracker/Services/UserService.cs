@@ -21,6 +21,7 @@ public class UserService : IUserService
         var user = await _dbContext.Users
             .AsNoTracking()
             .FirstOrDefaultAsync(u => u.UserId == userId);
+
         return user;
     }
 
@@ -29,6 +30,7 @@ public class UserService : IUserService
         var user = await _dbContext.Users
             .AsNoTracking()
             .FirstOrDefaultAsync(u => u.Email == email);
+
         return user;
     }
 
