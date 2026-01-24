@@ -2,6 +2,7 @@ using ExpensesTracker.Data;
 using ExpensesTracker.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using System.Text.Json.Serialization;
@@ -66,6 +67,8 @@ builder.Services.AddDbContext<ExpensesTrackerDBContext>(options => options.UseSq
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IExpensesService, ExpensesService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddHealthChecks()
+    .AddDbContextCheck<ExpensesTrackerDBContext>();
 
 var app = builder.Build();
 
@@ -80,6 +83,28 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.MapStaticAssets();
 app.UseRouting();
+
+app.MapHealthChecks("/health", new HealthCheckOptions
+{
+    ResponseWriter = async (context, report) =>
+    {
+        context.Response.ContentType = "application/json";
+
+        var result = new
+        {
+            status = report.Status.ToString(),
+            checks = report.Entries.Select(e => new
+            {
+                name = e.Key,
+                status = e.Value.Status.ToString(),
+                error = e.Value.Exception?.Message
+            })
+        };
+
+        await context.Response.WriteAsJsonAsync(result);
+    }
+});
+
 app.UseAuthentication();
 app.UseAuthorization();
 
