@@ -1,4 +1,5 @@
 ﻿@using System.Globalization
+@using static System.Globalization.CultureInfo;
 
 @model IEnumerable<Expense>
 
@@ -20,7 +21,7 @@
             <select id="monthSelect" class="form-select" style="width: auto;">
                 @{
                     var currentMonth = DateTime.UtcNow.Month;
-                    var months = CultureInfo.CurrentCulture.DateTimeFormat.MonthNames;
+                    var months = CurrentCulture.DateTimeFormat.MonthNames;
 
                     for (int m = 1; m <= 12; m++)
                     {

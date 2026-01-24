@@ -1,0 +1,52 @@
+﻿@model Expense;
+
+@{
+    ViewData["Title"] = "Add Expense Item -";
+}
+
+<div class="container my-5">
+    <h3 class="mb-4 text-center fw-bold text-primary-emphasis">Add Expense Item</h3>
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <form asp-action="Create" method="post" class="p-4 border rounded shadow-sm bg-light">
+                <div class="mb-3">
+                    <label asp-for="Description" class="form-label" for="">
+                        Description<span class="text-danger">*</span>
+                    </label>
+                    <input asp-for="Description" class="form-control" placeholder="Eg: Grocery, Electricity Bill" id="Description" />
+                    <span asp-validation-for="Description" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Amount" class="form-label" for="">
+                        Amount (AED)<span class="text-danger">*</span>
+                    </label>
+                    <input asp-for="Amount" class="form-control" placeholder="Eg: 50.00" id="Amount" />
+                    <span asp-validation-for="Amount" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-4">
+                    <label asp-for="Category" class="form-label" for="">
+                        Category<span class="text-danger">*</span>
+                    </label>
+                    <select asp-for="Category" class="form-select" asp-items="Html.GetEnumSelectList<Category>()" id="Category">
+                        <option value="">-- Select Category --</option>
+                    </select>
+                    <span asp-validation-for="Category" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-4">
+                    <label asp-for="Date" class="form-label" for="">
+                        Date
+                    </label>
+                    <input asp-for="Date" class="form-control" type="date" id="Date" />
+                    <span asp-validation-for="Date" class="text-danger small"></span>
+                </div>
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary btn-lg">Add Expense</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

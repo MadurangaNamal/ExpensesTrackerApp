@@ -30,14 +30,7 @@ public class ExpensesController : Controller
         return View(expenses);
     }
 
-    [HttpGet]
-    public async Task<IActionResult> GetExpensesTable(int year, int month)
-    {
-        var expenses = await _expensesService.GetAllExpensesAsync(year, month);
-        return PartialView("_ExpensesTablePartial", expenses);
-    }
-
-    public IActionResult Create()
+    public IActionResult CreateItem()
     {
         var model = new Expense
         {
@@ -47,10 +40,17 @@ public class ExpensesController : Controller
         return View(model);
     }
 
-    public async Task<IActionResult> Update(int itemId)
+    public async Task<IActionResult> UpdateItem(int itemId)
     {
         var expense = await _expensesService.GetExpenseItemAsync(itemId);
         return View(expense);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetExpensesTable(int year, int month)
+    {
+        var expenses = await _expensesService.GetAllExpensesAsync(year, month);
+        return PartialView("_ExpensesTablePartial", expenses);
     }
 
     [HttpPost]

@@ -1,16 +1,17 @@
 ﻿@model Expense;
 
 @{
-    ViewData["Title"] = "Add Expense Item -";
+    ViewData["Title"] = "Update Expense Item -";
 }
 
 <div class="container my-5">
-    <h3 class="mb-4 text-center fw-bold text-primary-emphasis">Add Expense Item</h3>
+    <h3 class="mb-4 text-center fw-bold text-primary-emphasis">Update Expense</h3>
+
     <div class="row justify-content-center">
         <div class="col-md-6 col-lg-5">
-            <form asp-action="Create" method="post" class="p-4 border rounded shadow-sm bg-light">
+            <form asp-controller="Expenses" asp-action="Update" asp-route-itemId="@Model.Id" method="post" class="p-4 border rounded shadow-sm bg-light">
                 <div class="mb-3">
-                    <label asp-for="Description" class="form-label">
+                    <label asp-for="Description" class="form-label" for="">
                         Description<span class="text-danger">*</span>
                     </label>
                     <input asp-for="Description" class="form-control" placeholder="Eg: Grocery, Electricity Bill" />
@@ -18,7 +19,7 @@
                 </div>
 
                 <div class="mb-3">
-                    <label asp-for="Amount" class="form-label">
+                    <label asp-for="Amount" class="form-label" for="">
                         Amount (AED)<span class="text-danger">*</span>
                     </label>
                     <input asp-for="Amount" class="form-control" placeholder="Eg: 50.00" />
@@ -26,7 +27,7 @@
                 </div>
 
                 <div class="mb-4">
-                    <label asp-for="Category" class="form-label">
+                    <label asp-for="Category" class="form-label" for="">
                         Category<span class="text-danger">*</span>
                     </label>
                     <select asp-for="Category" class="form-select" asp-items="Html.GetEnumSelectList<Category>()">
@@ -36,15 +37,20 @@
                 </div>
 
                 <div class="mb-4">
-                    <label asp-for="Date" class="form-label">
+                    <label asp-for="Date" class="form-label" for="">
                         Date
                     </label>
                     <input asp-for="Date" class="form-control" type="date" />
                     <span asp-validation-for="Date" class="text-danger small"></span>
                 </div>
 
-                <div class="d-grid">
-                    <button type="submit" class="btn btn-primary btn-lg">Add Expense</button>
+                <div class="d-flex justify-content-between gap-2 mt-3">
+                    <button type="submit" class="btn btn-primary btn-lg flex-fill d-flex align-items-center justify-content-center">
+                        <i class="bi bi-save me-2"></i> Update
+                    </button>
+                    <a asp-action="Index" class="btn btn-outline-secondary btn-lg flex-fill d-flex align-items-center justify-content-center">
+                        <i class="bi bi-x-circle me-2"></i> Cancel
+                    </a>
                 </div>
             </form>
         </div>

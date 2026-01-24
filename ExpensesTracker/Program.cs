@@ -1,7 +1,6 @@
 using ExpensesTracker.Data;
 using ExpensesTracker.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
@@ -17,11 +16,12 @@ var cookieExpireTime = builder.Configuration["AuthCookieExpiryMinutes"]
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
 })
 .AddCookie(options =>
 {
-    options.LoginPath = "/Account/Login";
+    options.LoginPath = "/UserAccounts/Login";
+    options.AccessDeniedPath = "/UserAccounts/Login";
     options.LogoutPath = "/Account/Logout";
     options.ExpireTimeSpan = TimeSpan.FromMinutes(long.Parse(cookieExpireTime));
     options.SlidingExpiration = true;
