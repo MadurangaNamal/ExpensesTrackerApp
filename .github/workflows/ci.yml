@@ -48,19 +48,19 @@ jobs:
 
       - name: Health check 
         run: |
-          docker-compose -f compose.yaml up -d
+          docker compose -f compose.yaml up -d
           echo "Waiting for app to start..."
           for i in {1..20}; do
             sleep 5
             if curl -sf http://localhost:5206/health; then
               echo "Health check passed!"
-              docker-compose -f compose.yaml down
+              docker compose -f compose.yaml down
               exit 0
             else
               echo "Waiting for health endpoint... ($i)"
             fi
           done
           echo "Health check failed!"
-          docker-compose -f compose.yaml logs
-          docker-compose -f compose.yaml down
+          docker compose -f compose.yaml logs
+          docker compose -f compose.yaml down
           exit 1
