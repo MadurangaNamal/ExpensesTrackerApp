@@ -17,17 +17,9 @@ public class ExpensesController : Controller
         _userService = userService ?? throw new ArgumentNullException(nameof(userService));
     }
 
-    public async Task<IActionResult> Index(int year = 0, int month = 0)
+    public IActionResult Index()
     {
-        if (year == 0 || month == 0)
-        {
-            var now = DateTime.UtcNow;
-            year = now.Year;
-            month = now.Month;
-        }
-
-        var expenses = await _expensesService.GetAllExpensesAsync(year, month);
-        return View(expenses);
+        return View();
     }
 
     public IActionResult CreateItem()
@@ -47,9 +39,9 @@ public class ExpensesController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetExpensesTable(int year, int month)
+    public async Task<IActionResult> GetExpensesTable(int year, int month, [FromQuery] PaginationParams paginationParams)
     {
-        var expenses = await _expensesService.GetAllExpensesAsync(year, month);
+        var expenses = await _expensesService.GetPagedExpensesAsync(year, month, paginationParams);
         return PartialView("_ExpensesTablePartial", expenses);
     }
 

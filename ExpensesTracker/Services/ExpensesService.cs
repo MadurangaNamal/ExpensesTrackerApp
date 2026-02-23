@@ -30,6 +30,29 @@ public class ExpensesService : IExpensesService
         return expenses;
     }
 
+    public async Task<PagedResult<Expense>> GetPagedExpensesAsync(int year, int month, PaginationParams paginationParams)
+    {
+        var user = await _userService.GetCurrentUserAsync();
+
+        if (user == null)
+            throw new UnauthorizedAccessException("User is not authenticated.");
+
+        var query = _dbContext.Expenses
+        .Where(e => e.Date.Year == year && e.Date.Month == month && e.UserId == user.UserId)
+        .AsQueryable();
+
+        var totalCount = await query.CountAsync();
+
+        var filteredExpenses = await query
+            .AsNoTracking()
+            .OrderBy(e => e.Date)
+            .Skip((paginationParams.PageNumber - 1) * paginationParams.PageSize)
+            .Take(paginationParams.PageSize)
+            .ToListAsync();
+
+        return PagedResult<Expense>.Create(filteredExpenses, paginationParams.PageNumber, paginationParams.PageSize, totalCount);
+    }
+
     public async Task<Expense> GetExpenseItemAsync(int itemId)
     {
         var expenseItem = await _dbContext.Expenses.FindAsync(itemId);
