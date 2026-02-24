@@ -7,7 +7,10 @@
 
 <div class="container my-5">
     <h3 class="mb-4 text-center fw-bold text-primary-emphasis">My Expenses</h3>
-
+    <a asp-action="CreateItem" class="btn btn-dark shadow-sm">
+        <i class="bi bi-plus-lg me-1"></i>
+        Add Item
+    </a>
     <div class="d-flex justify-content-center mb-3">
         <div class="d-flex gap-2">
             <select id="yearSelect" class="form-select">
@@ -34,10 +37,9 @@
                     }
                 }
             </select>
-            <button id="filterBtn" class="btn btn-primary btn-sm d-flex align-items-center">
-                <i class="bi bi-funnel me-1"></i> Filter
+            <button id="filterBtn" class="btn btn-danger btn-sm d-flex align-items-center">
+                <i class="bi bi-funnel me-1"></i>
             </button>
-
         </div>
     </div>
 
@@ -64,18 +66,14 @@
 
 <div class="container my-5">
     <h3 class="mb-4 text-center fw-bold text-primary-emphasis">Expenses Overview</h3>
-
     <div class="d-flex justify-content-center">
         <div class="shadow-sm rounded p-3 bg-light" style="max-width: 500px;">
-
             <canvas id="myChart" style="max-height: 450px;"></canvas>
-
             <div id="noChartData" class="text-center text-muted py-4" style="display: none;">
                 <i class="bi bi-pie-chart" style="font-size: 3rem;"></i>
                 <div class="mt-2">No Data Available</div>
                 <small>No expenses found for the selected month.</small>
             </div>
-
         </div>
     </div>
 </div>

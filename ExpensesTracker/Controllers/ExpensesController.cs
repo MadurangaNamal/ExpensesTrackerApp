@@ -66,7 +66,7 @@ public class ExpensesController : Controller
             return RedirectToAction("Index");
         }
 
-        return View(expense);
+        return View("CreateItem", expense);
     }
 
     [HttpPost]
@@ -78,7 +78,7 @@ public class ExpensesController : Controller
             return RedirectToAction("Index");
         }
 
-        return View(expense);
+        return View("UpdateItem", expense);
     }
 
     [HttpPost]

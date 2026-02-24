@@ -14,6 +14,7 @@ function loadChart(year, month) {
             }
 
             if (data && data.length > 0) {
+
                 // Show chart & hide no data message
                 ctx.style.display = 'block';
                 noChartData.style.display = 'none';
@@ -59,6 +60,7 @@ function loadChart(year, month) {
 }
 
 function loadTable(year, month, pageNumber = 1) {
+
     activeYear = year;
     activeMonth = month;
 
@@ -67,8 +69,10 @@ function loadTable(year, month, pageNumber = 1) {
         .then(html => {
             document.getElementById('expensesTableBody').innerHTML = html;
         })
-        .catch(error => {
+        .catch(error =>
+        {
             console.error('Error loading table:', error);
+
             document.getElementById('expensesTableBody').innerHTML = `
                     <tr>
                         <td colspan="5" class="text-center text-muted py-4">
@@ -80,9 +84,11 @@ function loadTable(year, month, pageNumber = 1) {
         });
 }
 
-document.getElementById('filterBtn').addEventListener('click', function () {
+document.getElementById('filterBtn').addEventListener('click', function ()
+{
     const year = parseInt(document.getElementById('yearSelect').value);
     const month = parseInt(document.getElementById('monthSelect').value);
+
     loadChart(year, month);
     loadTable(year, month);
 });
