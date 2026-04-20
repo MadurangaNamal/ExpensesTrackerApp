@@ -35,7 +35,7 @@ builder.Services.AddAuthentication(options =>
     options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
     options.SaveTokens = true;
 
-    //Request additional scopes (permissions) for email and profile information from google
+    // Request additional scopes (permissions) for email and profile information from google
     options.Scope.Add("email");
     options.Scope.Add("profile");
 

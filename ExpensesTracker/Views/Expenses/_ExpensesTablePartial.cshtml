@@ -13,23 +13,24 @@
                 <a asp-controller="Expenses" asp-action="UpdateItem" asp-route-itemId="@item.Id" class="btn btn-sm btn-primary">
                     Edit <i class="bi bi-pencil"></i>
                 </a>
-                <form asp-controller="Expenses" asp-action="Delete" asp-route-itemId="@item.Id" method="post"
-                      onsubmit="return confirm('Are you sure you want to delete this expense item?');">
-                    <button type="submit" class="btn btn-sm btn-danger">
-                        Delete <i class="bi bi-trash"></i>
-                    </button>
-                </form>
+                <button type="button"
+                        class="btn btn-sm btn-danger"
+                        data-bs-toggle="modal"
+                        data-bs-target="#deleteModal"
+                        data-id="@item.Id"
+                        data-description="@item.Description">
+                    Delete <i class="bi bi-trash"></i>
+                </button>
             </td>
         </tr>
     }
-
     <tr>
         <td colspan="5" class="border-0 p-0">
             <nav>
                 <ul class="pagination justify-content-center mt-3">
                     <li class="page-item @(!Model.HasPreviousPage ? "disabled" : "")">
                         <a class="page-link" href="#"
-                           onclick="loadTable(activeYear, activeMonth, @(Model.PageNumber - 1)); return false;">
+                               onclick="loadTable(activeYear, activeMonth, @(Model.PageNumber - 1)); return false;">
                             Previous
                         </a>
                     </li>
@@ -38,7 +39,7 @@
                     {
                         <li class="page-item @(i == Model.PageNumber ? "active" : "")">
                             <a class="page-link" href="#"
-                               onclick="loadTable(activeYear, activeMonth, @i); return false;">
+                                   onclick="loadTable(activeYear, activeMonth, @i); return false;">
                                 @i
                             </a>
                         </li>
@@ -46,7 +47,7 @@
 
                     <li class="page-item @(!Model.HasNextPage ? "disabled" : "")">
                         <a class="page-link" href="#"
-                           onclick="loadTable(activeYear, activeMonth, @(Model.PageNumber + 1)); return false;">
+                               onclick="loadTable(activeYear, activeMonth, @(Model.PageNumber + 1)); return false;">
                             Next
                         </a>
                     </li>

@@ -5,7 +5,9 @@
 }
 
 <div class="container my-5">
-    <h3 class="mb-4 text-center fw-bold text-primary-emphasis">Update Expense</h3>
+    <h3 class="mb-4 text-md-start fw-bold text-primary-emphasis">
+        Update Expense <i class="bi bi-pencil-square"></i>
+    </h3>
     <div class="row justify-content-center">
         <div class="col-md-6 col-lg-5">
             <form asp-controller="Expenses" asp-action="Update" asp-route-itemId="@Model.Id" method="post" class="p-4 border rounded shadow-sm bg-light">
